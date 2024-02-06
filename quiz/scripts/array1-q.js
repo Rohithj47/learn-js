@@ -2,31 +2,39 @@ window.onload = function() {
     const list = document.getElementById('Top5');
     const inp = document.getElementById('inp');
     const btn = document.getElementById('btn');
-    list.innerHTML = '';
-
-    const myHistory = [];
+    
     const MAX_HISTORY = 5;
+    const myHistory = [];
 
     btn.onclick = () => {
-    // we will only allow a term to be entered if the search input isn't empty
-      if (inp.value !== '') {
-              // empty the list so that we don't display duplicate entries
-              // the display is regenerated every time a search term is entered.
-              list.innerHTML = '';
+        const searchTerm = inp.value.trim();
+        
+        if (searchTerm !== '') {
+            myHistory.push(searchTerm);
 
-              // loop through the sorted array, and display all the search terms in the list
-              for (const itemText of myHistoryCopy) {
-                
-              }
+            // Sort the array by the length of the search terms
+            myHistory.sort((a, b) => a.length - b.length);
 
-              // If the array length is 5 or more, remove the oldest search term
-              if (myHistory.length >= MAX_HISTORY) {
-                
-              }
+            // If the array length is 5 or more, remove the oldest search term
+            if (myHistory.length > MAX_HISTORY) {
+                myHistory.shift(); // Remove the first element (oldest search term)
+            }
 
-              // empty the search input and focus it, ready for the next term to be entered
-              inp.value = '';
-              btn.focus();
-          }
+            renderList();
+            inp.value = ''; // Clear the input box
+            inp.focus(); // Focus back on the input box
+        }
+    };
+
+    function renderList() {
+        // Clear the existing list
+        list.innerHTML = '';
+
+        // Display the search terms in the list
+        myHistory.forEach(itemText => {
+            const li = document.createElement('li');
+            li.textContent = itemText;
+            list.appendChild(li);
+        });
     }
-}
+};
