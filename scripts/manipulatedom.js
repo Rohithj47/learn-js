@@ -14,6 +14,23 @@ function createTDNode(childNode) {
   let tdNode = document.createElement("td");
   tdNode.classList.add('tdNode');
   tdNode.appendChild(childNode);
+
+  let originalChildNode = childNode;
+
+  // Add button 
+  let editBtn = document.createElement("button")
+  editBtn.textContent = "Edit Cell";
+  editBtn.addEventListener('click', () => {
+    if(!tdNode.contains(childNode)) {
+      tdNode.appendChild(originalChildNode);
+    } else {
+      let inputTag = document.createElement("input");
+      inputTag.placeholder = "Enter Cell(x, y) ..";
+      tdNode.insertBefore(inputTag, originalChildNode)
+      tdNode.removeChild(childNode);
+    }
+  })
+  tdNode.appendChild(editBtn);
   return tdNode;
 }
 
